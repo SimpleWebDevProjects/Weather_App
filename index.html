@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherPulse | Modern Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud-sun"></i>
+                <h1>WeatherPulse</h1>
+            </div>
+            <div class="actions">
+                <div class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </div>
+                <button class="refresh-btn" id="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="city-search" placeholder="Search for a city..." value="New York">
+                <button id="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="weather-tips">
+                <i class="fas fa-info-circle"></i>
+                <p>Tip: Search for any city worldwide to get real-time weather data</p>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div class="loader" id="loader"></div>
+
+        <!-- Current Weather -->
+        <section class="current-weather" id="current-weather">
+            <div class="weather-header">
+                <div>
+                    <h2 class="city-name"><i class="fas fa-location-dot"></i> New York, US</h2>
+                    <div class="date-time" id="date-time">Friday, June 7, 2025| 10:30 AM</div>
+                </div>
+                <button class="pin-btn"><i class="fas fa-thumbtack"></i> Pin City</button>
+            </div>
+            <div class="weather-main">
+                <div class="temperature">22°C</div>
+                <div class="weather-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <div class="weather-description">
+                    <h3>Sunny</h3>
+                    <p>Perfect day for outdoor activities</p>
+                </div>
+            </div>
+            <div class="weather-details">
+                <div class="detail-card">
+                    <i class="fas fa-wind"></i>
+                    <div class="label">Wind Speed</div>
+                    <div class="value">12 km/h</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-tint"></i>
+                    <div class="label">Humidity</div>
+                    <div class="value">65%</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-compress-alt"></i>
+                    <div class="label">Pressure</div>
+                    <div class="value">1013 hPa</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-smog"></i>
+                    <div class="label">AQI</div>
+                    <div class="value">45 <span class="aqi-badge aqi-good">Good</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forecast Section -->
+        <section class="forecast-section" id="forecast-section">
+            <h2 class="section-title"><i class="fas fa-calendar-days"></i> 5-Day Forecast</h2>
+            <div class="forecast-container">
+                <div class="forecast-card">
+                    <div class="forecast-day">Tomorrow</div>
+                    <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
+                    <div class="forecast-temp">24°C</div>
+                </div>
+                <div class="forecast-card">
+                    <div class="forecast-day">Sat</div>
+                    <div class="forecast-icon"><i class="fas fa-cloud"></i></div>
+                    <div class="forecast-temp">21°C</div>
+                </div>
+                <div class="forecast-card">
+                    <div class="forecast-day">Sun</div>
+                    <div class="forecast-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+                    <div class="forecast-temp">18°C</div>
+                </div>
+                <div class="forecast-card">
+                    <div class="forecast-day">Mon</div>
+                    <div class="forecast-icon"><i class="fas fa-sun"></i></div>
+                    <div class="forecast-temp">25°C</div>
+                </div>
+                <div class="forecast-card">
+                    <div class="forecast-day">Tue</div>
+                    <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
+                    <div class="forecast-temp">23°C</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Temperature Chart -->
+        <section class="chart-section">
+            <h2 class="section-title"><i class="fas fa-chart-line"></i> Temperature Trend</h2>
+            <div class="chart-container">
+                <canvas id="weatherChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Pinned Cities -->
+        <section class="pinned-cities">
+            <h2 class="section-title"><i class="fas fa-thumbtack"></i> Pinned Cities</h2>
+            <div class="pinned-grid">
+                <div class="pinned-city">
+                    <button class="remove-btn"><i class="fas fa-times"></i></button>
+                    <div class="pinned-city-header">
+                        <h3 class="pinned-city-name">London, UK</h3>
+                        <div class="pinned-city-temp">18°C</div>
+                    </div>
+                    <div class="pinned-city-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="pinned-city-details">
+                        <span>Humidity: 72%</span>
+                        <span>Wind: 14 km/h</span>
+                    </div>
+                </div>
+
+                <div class="pinned-city">
+                    <button class="remove-btn"><i class="fas fa-times"></i></button>
+                    <div class="pinned-city-header">
+                        <h3 class="pinned-city-name">Tokyo, JP</h3>
+                        <div class="pinned-city-temp">25°C</div>
+                    </div>
+                    <div class="pinned-city-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="pinned-city-details">
+                        <span>Humidity: 68%</span>
+                        <span>Wind: 10 km/h</span>
+                    </div>
+                </div>
+
+                <div class="pinned-city">
+                    <button class="remove-btn"><i class="fas fa-times"></i></button>
+                    <div class="pinned-city-header">
+                        <h3 class="pinned-city-name">Paris, FR</h3>
+                        <div class="pinned-city-temp">20°C</div>
+                    </div>
+                    <div class="pinned-city-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="pinned-city-details">
+                        <span>Humidity: 60%</span>
+                        <span>Wind: 8 km/h</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div>© 2025 WeatherPulse | Real-time weather updates</div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Info Button -->
+    <div class="info-btn" id="info-btn">
+        <i class="fas fa-info"></i>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal"><i class="fas fa-times"></i></button>
+            <h2 class="modal-title"><i class="fas fa-info-circle"></i> About WeatherPulse</h2>
+
+            <div class="modal-section">
+                <h3><i class="fas fa-cloud-sun"></i> About This App</h3>
+                <p>WeatherPulse is a modern weather application that provides real-time weather updates for cities worldwide. With a clean, intuitive interface and a professional design aesthetic, it offers both functionality and visual appeal.</p>
+                <p>Key features include city search, detailed weather information, 5-day forecasts, temperature charts, and the ability to pin your favorite cities for quick access to their current conditions.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3><i class="fas fa-user"></i> About the Creator</h3>
+                <p>Created by <strong>Ayush Dubey</strong>, a passionate developer who specializes in creating beautiful, functional web applications.</p>
+                <a href="https://ayushdubey23.github.io/mpw/" target="_blank" class="portfolio-link">
+                    <i class="fas fa-external-link-alt"></i> Visit My Portfolio
+                </a>
+            </div>
+
+            <div class="modal-section">
+                <h3><i class="fas fa-lightbulb"></i> Weather Facts</h3>
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <i class="fas fa-temperature-high"></i>
+                        <p>The highest temperature ever recorded on Earth was 56.7°C in Death Valley, California in 1913.</p>
+                    </div>
+                    <div class="fact-card">
+                        <i class="fas fa-snowflake"></i>
+                        <p>Snowflakes falling at 2-4 mph can take about 1 hour to reach the ground from cloud level.</p>
+                    </div>
+                    <div class="fact-card">
+                        <i class="fas fa-bolt"></i>
+                        <p>Lightning can heat the air around it to 30,000°C - that's 5 times hotter than the surface of the sun!</p>
+                    </div>
+                    <div class="fact-card">
+                        <i class="fas fa-wind"></i>
+                        <p>The fastest wind speed ever recorded was 408 km/h during a tropical cyclone in Australia in 1996.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
